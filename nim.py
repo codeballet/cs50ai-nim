@@ -136,7 +136,17 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        print('inside best_future_reward')
+        if len(self.q) == 0:
+            # no Q-values available
+            return 0
+
+        # find highest Q-value
+        q_max = 0
+        for s, a in self.q.keys():
+            if s == tuple(state):
+                q_max = self.q[(s, a)]
+
+        return q_max
 
     def choose_action(self, state, epsilon=True):
         """
@@ -163,14 +173,14 @@ class NimAI():
         else:
             # actions have q values
             if not epsilon:
-                # greedy, choose action with best q value
+                # greedy, choose best action
                 return max(self.q, key=lambda i: self.q.get(i))
             else:
                 if self.epsilon >= random.random():
                     # with epsilon probability
                     return random.choice(list(actions))
                 else:
-                    # return best action
+                    # choose best action
                     return max(self.q, key=lambda i: self.q.get(i))
 
 
