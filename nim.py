@@ -52,6 +52,7 @@ class Nim():
         `action` must be a tuple `(i, j)`.
         """
         pile, count = action
+        print(f'inside move, pile: {pile}')
 
         # Check for errors
         if self.winner is not None:
@@ -173,19 +174,27 @@ class NimAI():
         # choose an action
         if len(self.q) == 0:
             # no known q values for actions, return random action
-            return random.choice(list(actions))
+            action = random.choice(list(actions))
+            print(f'line 178, returning action: {action}')
+            return action
         else:
             # actions have q values
             if not epsilon:
                 # greedy, choose best action
-                return max(self.q, key=lambda i: self.q.get(i))
+                action = max(self.q, key=lambda i: self.q.get(i))[1]
+                print(f'line 185, returning action: {action}')
+                return action
             else:
                 if self.epsilon >= random.random():
                     # with epsilon probability
-                    return random.choice(list(actions))
+                    action = random.choice(list(actions))
+                    print(f'line 191, returning action: {action}')
+                    return action
                 else:
                     # choose best action
-                    return max(self.q, key=lambda i: self.q.get(i))
+                    action = max(self.q, key=lambda i: self.q.get(i))[1]
+                    print(f'line 196, returning action: {action}')
+                    return action
 
 
 def train(n):
