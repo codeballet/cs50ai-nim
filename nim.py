@@ -164,14 +164,14 @@ class NimAI():
             # actions have q values
             if not epsilon:
                 # greedy, choose action with best q value
-                action = max(self.q, key=lambda i: self.q.get(i))
+                return max(self.q, key=lambda i: self.q.get(i))
             else:
                 if self.epsilon >= random.random():
                     # with epsilon probability
                     return random.choice(list(actions))
                 else:
                     # return best action
-                    action = max(self.q, key=lambda i: self.q.get(i))
+                    return max(self.q, key=lambda i: self.q.get(i))
 
 
 def train(n):
