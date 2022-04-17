@@ -52,7 +52,6 @@ class Nim():
         `action` must be a tuple `(i, j)`.
         """
         pile, count = action
-        print(f'inside move, pile: {pile}')
 
         # Check for errors
         if self.winner is not None:
@@ -125,10 +124,6 @@ class NimAI():
         `alpha` is the learning rate, and `new value estimate`
         is the sum of the current reward and estimated future rewards.
         """
-        print('inside update_q_value')
-        print(f'state: {state}')
-        print(f'q: {self.q}')
-
         self.q[tuple(state), action] = old_q + self.alpha * (reward + future_rewards - old_q)
 
     def best_future_reward(self, state):
@@ -153,6 +148,27 @@ class NimAI():
 
         return q_max
 
+    def highest_q_action(self, state, actions):
+        '''
+        Given a state and a list of actions,
+        find the (state, action) with highest Q-value.
+        If none found, return randomly chosen action
+        '''
+        q_max = 0
+        best_action = tuple()
+        for action in actions:
+            q = self.q.get((tuple(state), action))
+            if q != None and q > q_max:
+                # better q value found
+                q_max = q
+                best_action = action
+
+        if not best_action:
+            # no Q-value better than zero found
+            best_action = random.choice(list(actions))
+        
+        return best_action
+
     def choose_action(self, state, epsilon=True):
         """
         Given a state `state`, return an action `(i, j)` to take.
@@ -175,26 +191,20 @@ class NimAI():
         if len(self.q) == 0:
             # no known q values for actions, return random action
             action = random.choice(list(actions))
-            print(f'line 178, returning action: {action}')
             return action
         else:
             # actions have q values
             if not epsilon:
-                # greedy, choose best action
-                action = max(self.q, key=lambda i: self.q.get(i))[1]
-                print(f'line 185, returning action: {action}')
-                return action
+                # greedily choose best action
+                return self.highest_q_action(state, actions)
             else:
                 if self.epsilon >= random.random():
                     # with epsilon probability
                     action = random.choice(list(actions))
-                    print(f'line 191, returning action: {action}')
                     return action
                 else:
-                    # choose best action
-                    action = max(self.q, key=lambda i: self.q.get(i))[1]
-                    print(f'line 196, returning action: {action}')
-                    return action
+                    # greedily choose best action
+                    return self.highest_q_action(state, actions)
 
 
 def train(n):
