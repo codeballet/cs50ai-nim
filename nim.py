@@ -144,7 +144,7 @@ class NimAI():
         q_max = 0
         for s, a in self.q.keys():
             if s == tuple(state):
-                q_max = self.q[(s, a)]
+                q_max = self.q[(s, a)] if self.q[(s, a)] > q_max else q_max
 
         return q_max
 
