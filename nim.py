@@ -136,10 +136,6 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        if len(self.q) == 0:
-            # no Q-values available
-            return 0
-
         # find highest Q-value
         q_max = 0
         for s, a in self.q.keys():
@@ -163,7 +159,7 @@ class NimAI():
                 q_max = q
                 best_action = action
 
-        if not best_action:
+        if len(best_action) == 0:
             # no Q-value better than zero found
             best_action = random.choice(list(actions))
         
