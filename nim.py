@@ -183,24 +183,17 @@ class NimAI():
         # get available actions
         actions = Nim.available_actions(state)
 
-        # choose an action
-        if len(self.q) == 0:
-            # no known q values for actions, return random action
-            action = random.choice(list(actions))
-            return action
+        if not epsilon:
+            # greedily choose best action
+            return self.highest_q_action(state, actions)
         else:
-            # actions have q values
-            if not epsilon:
+            if self.epsilon >= random.random():
+                # with epsilon probability
+                action = random.choice(list(actions))
+                return action
+            else:
                 # greedily choose best action
                 return self.highest_q_action(state, actions)
-            else:
-                if self.epsilon >= random.random():
-                    # with epsilon probability
-                    action = random.choice(list(actions))
-                    return action
-                else:
-                    # greedily choose best action
-                    return self.highest_q_action(state, actions)
 
 
 def train(n):
