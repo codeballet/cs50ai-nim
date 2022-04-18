@@ -10,7 +10,7 @@ There is some simple strategy for this game: if there is only one pile and three
 
 ## Algorithm
 
-In particular, I use the algorithm of Q-learning for this project. In Q-learning, the AI tries to learn a reward value (a number) for every (state, action) pair. An action that loses the game will have a reward of -1, an action that results in the other player losing the game will have a reward of 1, and an action that results in the game continuing has an immediate reward of 0, but will also have some future reward.
+In particular, I use an algorithm called Q-learning for this project. In Q-learning, the AI tries to learn a reward value (a number) for every (state, action) pair. An action that loses the game will have a reward of -1, an action that results in the other player losing the game will have a reward of 1, and an action that results in the game continuing has an immediate reward of 0, but will also have some future reward.
 
 The implemented Q-learning formula is:
 
